@@ -57,24 +57,78 @@ gdt_descriptor:
     dw gdt_end - gdt_start-1
     dd gdt_start
 
+ [BITS 32]
+ load32:
+    mov eax, 1
+    mov ecx, 100
+    mov edi, 0x0100000
+    call ata_lba_read
+    jmp CODE_SEG:0x0100000
 
-[BITS 32]
-load32:
-    mov ax, DATA_SEG
-    mov ds, ax
-    mov es, ax
-    mov fs, ax
-    mov gs, ax
-    mov ss, ax
-    mov ebp, 0x00200000
-    mov esp, ebp 
+ata_lba_read:
+    mov ebx, eax, ;Backup the lba
+    ;Send the highest 8 bits of the lba to hard disk controller
+    shr eax, 24
+    or eax, 0xE0 ; Selects the master
+    mov dx, 0x1F6
+    out dx, al
+    ; Finished sending highest 8 bits of the lba
+    
+    ; Send the total sectors to read
+    mov eax, ecx
+    mov dx, 0x1F2
+    out dx, al
+    ; Finished sending the total sectors
+    
+    ; send more bits of lba
+    mov eax, ebx ; Restore the backup lba
+    mov dx, 0x1F3
+    out dx, al
+    ; Finished sending more bits of the lba
 
-    ; Enable the A20 line
-    in al, 0x92
-    or al, 2
-    out 0x92, al
+    ; send more bits of the lba 
+    mov dx, 0x1F4
+    mov eax, ebx ; Restore the backup lba
+    shr eax, 8
+    out dx, al
+    ; Finished sending more bits of the lba
 
-    jmp $
+    ; Send upper 16 bits of the lba
+    mov dx, 0x1F5
+    mov eax, ebx ; Restore the backup lba
+    shr eax, 16
+    out dx, al
+    ; Finished sending upper 16 bits of the lba
+
+    mov dx, 0x1f7
+    mov al, 0x20
+    out dx, al
+
+    ; Read all sectors into memory
+.next_sector:
+    push ecx
+; Check if we need to read
+.try_again:
+    mov dx, 0x1f7
+    in al, dx
+    test al, 8
+    jz .try_again
+
+; We need to read 256 words at a time
+    mov ecx,256
+    mov dx, 0x1F0
+    rep insw
+    pop ecx
+    loop .next_sector
+    ;End of reading sectors into memory
+    ret
+
+
+
+
+
+
+
 
 times 510-($ - $$) db 0
 dw 0xAA55
