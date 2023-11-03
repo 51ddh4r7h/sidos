@@ -2,7 +2,6 @@
 #define IDT_H
 #include <stdint.h>
 
-
 struct idt_desc
 {
     uint16_t offset_1;
@@ -16,8 +15,10 @@ struct idtr_desc
 {
     uint16_t limit;
     uint32_t base;
-
-} __attribute((packed));
+} __attribute__((packed));  // Double parentheses are added here
 
 void idt_init();
+void enable_interrupts();
+void disable_interrupts();
+
 #endif
