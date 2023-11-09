@@ -20,6 +20,6 @@
 
 #define SIDOS_MAX_PATH 108
 
-#define SIDOS_TOTAL_GDT_SEGMENTS 3
+#define SIDOS_TOTAL_GDT_SEGMENTS 6
 
 #endif
