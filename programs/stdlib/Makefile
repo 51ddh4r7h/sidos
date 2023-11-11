@@ -1,5 +1,6 @@
-FILES=./build/start.o ./build/sidos.o
-INCLUDES=
+FILES=./build/start.o ./build/sidos.o ./build/stdlib.o
+INCLUDES=-I./src
+FLAGS= -g
 
 all: ${FILES}
 	i686-elf-ld -m elf_i386 -relocatable ${FILES} -o ./stdlib.elf
@@ -8,8 +9,10 @@ all: ${FILES}
 	nasm -f elf ./src/start.asm -o ./build/start.o
 
 ./build/sidos.o: ./src/sidos.asm
-	nasm -f elf ./src/sidos.asm -o ./build/sidos.o
+	nasm -f elf ./src/sidos.asm -o ./build/peachos.o
 
+./build/stdlib.o: ./src/stdlib.c
+	i686-elf-gcc ${INCLUDES} $(FLAGS) -std=gnu99 -c ./src/stdlib.c -o ./build/stdlib.o
 
 clean:
 	rm -rf ${FILES}
