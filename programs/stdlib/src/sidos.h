@@ -11,6 +11,6 @@ void sidos_free(void* ptr);
 void sidos_putchar(char c);
 int sidos_getkeyblock();
 void sidos_terminal_readline(char* out, int max, bool output_while_typing);
-
+void sidos_process_load_start(const char* filename);
 
 #endif
