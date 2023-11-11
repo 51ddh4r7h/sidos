@@ -3,7 +3,7 @@
 section .asm
 
 global print:function
-global getkey:function
+global sidos_getkey:function
 global sidos_malloc:function
 global sidos_free:function
 global sidos_putchar:function
@@ -19,8 +19,8 @@ print:
     pop ebp
     ret
 
-; int getkey()
-getkey:
+; int sidos_getkey()
+sidos_getkey:
     push ebp
     mov ebp, esp
     mov eax, 2 ; Command getkey
