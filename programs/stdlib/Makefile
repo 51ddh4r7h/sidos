@@ -9,7 +9,7 @@ all: ${FILES}
 	nasm -f elf ./src/start.asm -o ./build/start.o
 
 ./build/sidos.o: ./src/sidos.asm
-	nasm -f elf ./src/sidos.asm -o ./build/peachos.o
+	nasm -f elf ./src/sidos.asm -o ./build/sidos.o
 
 ./build/stdlib.o: ./src/stdlib.c
 	i686-elf-gcc ${INCLUDES} $(FLAGS) -std=gnu99 -c ./src/stdlib.c -o ./build/stdlib.o
