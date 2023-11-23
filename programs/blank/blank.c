@@ -3,7 +3,7 @@
 #include "stdio.h"
 int main(int argc, char** argv)
 {
-    printf("My age is %i\n", 98);
+    printf("\nMy age is %i\n", 98);
     while(1) 
     {
     }
