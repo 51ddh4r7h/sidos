@@ -28,5 +28,7 @@ void sidos_terminal_readline(char* out, int max, bool output_while_typing);
 void sidos_process_load_start(const char* filename);
 struct command_argument* sidos_parse_command(const char* command, int max);
 void sidos_process_get_arguments(struct process_arguments* arguments);
+int sidos_system(struct command_argument* arguments);
+int sidos_system_run(const char* command);
 
 #endif
