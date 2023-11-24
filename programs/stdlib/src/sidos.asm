@@ -8,6 +8,7 @@ global sidos_malloc:function
 global sidos_free:function
 global sidos_putchar:function
 global sidos_process_load_start:function
+global sidos_process_get_arguments:function 
 
 ; void print(const char* filename)
 print:
@@ -68,6 +69,17 @@ sidos_process_load_start:
     mov ebp, esp
     mov eax, 6 ; Command 6 process load start ( stars a process )
     push dword[ebp+8] ; Variable "filename"
+    int 0x80
+    add esp, 4
+    pop ebp
+    ret
+
+; void sidos_process_get_arguments(struct process_arguments* arguments)
+sidos_process_get_arguments:
+    push ebp
+    mov ebp, esp
+    mov eax, 8 ; Command 8 Gets the process arguments
+    push dword[ebp+8] ; Variable arguments
     int 0x80
     add esp, 4
     pop ebp
