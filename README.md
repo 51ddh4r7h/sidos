@@ -5,4 +5,4 @@
 - Keyboard driver implementation ✅
 - ELF file loader creation ✅
 - Design of a virtual filesystem layer (inspired by Linux kernel) ✅
-- Process and task functionality [Multitasking]
+- Process and task functionality [Multitasking] ✅
