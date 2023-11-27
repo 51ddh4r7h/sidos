@@ -10,6 +10,7 @@ global sidos_putchar:function
 global sidos_process_load_start:function
 global sidos_process_get_arguments:function 
 global sidos_system:function
+global sidos_exit:function
 
 ; void print(const char* filename)
 print:
@@ -95,5 +96,14 @@ sidos_process_get_arguments:
     push dword[ebp+8] ; Variable arguments
     int 0x80
     add esp, 4
+    pop ebp
+    ret
+
+; void sidos_exit()
+sidos_exit:
+    push ebp
+    mov ebp, esp
+    mov eax, 9 ; Command 9 process exit
+    int 0x80
     pop ebp
     ret
